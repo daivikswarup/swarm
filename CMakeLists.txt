@@ -106,6 +106,14 @@ set(SINGLE_BOT
 	src/swarm_bot.cpp
 )
 
+set(SINGLE_BOT3
+        src/swarm_bot3.cpp
+)
+set(SINGLE_BOT_8
+        src/swarm_bot_8.cpp
+)
+
+
 ## Declare a cpp executable
 add_executable(swarm_simulator_node ${SWARM_SIMU})
 add_dependencies(swarm_simulator_node ${PROJECT_NAME}_generate_messages_cpp)
@@ -114,9 +122,14 @@ target_link_libraries(swarm_simulator_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARI
 
 ## Declare a cpp executable
 add_executable(single_bot_node ${SINGLE_BOT})
+add_executable(single_bot_node3 ${SINGLE_BOT3})
+add_executable(single_bot_node_8 ${SINGLE_BOT_8})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(single_bot_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_link_libraries(single_bot_node3  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_link_libraries(single_bot_node_8  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 #############
 ## Install ##
 #############
@@ -145,7 +158,7 @@ target_link_libraries(single_bot_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 #   PATTERN ".svn" EXCLUDE
 # )
 
-## Mark other files for installation (e.g. launch and bag files, etc.)
+## Mark other files for installation (eg. launch and bag files, etc.)
 # install(FILES
 #   # myfile1
 #   # myfile2
@@ -163,4 +176,4 @@ target_link_libraries(single_bot_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 # endif()
 
 ## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+# catkin_add_nosetests(test):
