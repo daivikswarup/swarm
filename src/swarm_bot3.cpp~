@@ -32,12 +32,13 @@ int main(int argc, char **argv)
 	double desx;
 	double desy;
 	std::string name;
+ros::init(argc, argv, name);
 	ros::NodeHandle private_node_handle_("~");
 	private_node_handle_.param("name", name, std::string("swarmbot0"));
   	private_node_handle_.param("desx", desx, double(0));
   	private_node_handle_.param("desy", desy, double(0));
 
-  ros::init(argc, argv, name);
+  
 
   ros::NodeHandle n;
    ros::ServiceClient client = n.serviceClient<gazebo_msgs::GetWorldProperties>("/gazebo/get_world_properties");
