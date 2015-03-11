@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 	double desx;
 	double desy;
 	std::string name;
-ros::init(argc, argv, name);
+	ros::init(argc, argv, name);
 	ros::NodeHandle private_node_handle_("~");
 	private_node_handle_.param("name", name, std::string("swarmbot0"));
   	private_node_handle_.param("desx", desx, double(0));
@@ -40,114 +40,114 @@ ros::init(argc, argv, name);
 
   
 
-  ros::NodeHandle n;
-   ros::ServiceClient client = n.serviceClient<gazebo_msgs::GetWorldProperties>("/gazebo/get_world_properties");
-  gazebo_msgs::GetWorldProperties prop;
-  ros::Publisher vel_pub_0 = n.advertise<geometry_msgs::Twist>("/swarmbot0/cmd_vel", 1);
+	ros::NodeHandle n;
+	ros::ServiceClient client = n.serviceClient<gazebo_msgs::GetWorldProperties>("/gazebo/get_world_properties");
+	gazebo_msgs::GetWorldProperties prop;
+	ros::Publisher vel_pub_0 = n.advertise<geometry_msgs::Twist>("/swarmbot0/cmd_vel", 1);
 //std::vector<std::string> s;
   //if(client.call(prop))
   //  s=prop.response.model_names;
-std::string s="swarmbot0";//How to find name of current process????
-  ros::ServiceClient serv_client = n.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  gazebo_msgs::GetModelState getmodelstate;
-  gazebo_msgs::ModelState modelstate;
+	std::string s="swarmbot0";//How to find name of current process????
+	ros::ServiceClient serv_client = n.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
+	gazebo_msgs::GetModelState getmodelstate;
+	gazebo_msgs::ModelState modelstate;
 
   // ros::Publisher vel_pub_1 = n.advertise<geometry_msgs::Twist>("/robot0/cmd_vel", 1);
-  ros::Rate loop_rate(5);
+	ros::Rate loop_rate(5);
 
-  int count = 0;
-geometry_msgs::Twist cmd_vel;
-  getmodelstate.request.model_name=s;
+	int count = 0;
+	geometry_msgs::Twist cmd_vel;
+	getmodelstate.request.model_name=name;
 
 //cmd_vel.linear.x=-0.5*(cordx)/(sqrt(cordx*cordx+cordy*cordy));
 //cmd_vel.linear.y=-0.5*(cordy)/(sqrt(cordx*cordx+cordy*cordy));
 //ROS_INFO("%lf %lf %lf",cmd_vel.linear.x,cmd_vel.linear.y,(double)sqrt(cordx*cordx+cordy*cordy));
 
-cmd_vel.linear.z = 0;
-    cmd_vel.angular.x = 0;
-    cmd_vel.angular.y = 0;
-    cmd_vel.angular.z = 0;
-serv_client.call(getmodelstate);
-ROS_INFO("Moving in X direction");
+	cmd_vel.linear.z = 0;
+    	cmd_vel.angular.x = 0;
+    	cmd_vel.angular.y = 0;
+    	cmd_vel.angular.z = 0;
+	serv_client.call(getmodelstate);
+	ROS_INFO("Moving in X direction");
 
 //while ((ros::ok())&&(abs(cordx)<=abs(prev))&&cordx!=0)
 //while((ros::ok())&&(abs(cordx)>0.15)) 
-while(ros::ok())
- {
-serv_client.call(getmodelstate); 
-	if(abs(cordx)<0.2)
-		break;
-	else
- 		cmd_vel.linear.x = (cordx<0)?1:-1;
+	while(ros::ok())
+ 	{
+		serv_client.call(getmodelstate); 
+		if(abs(cordx)<0.2)
+			break;
+		else
+ 			cmd_vel.linear.x = (cordx<0)?1:-1;
     //cmd_vel.linear.y = (cordy<0)?1*signbit(cordy):0;
-	cmd_vel.linear.y=0;   
-	cmd_vel.linear.z = 0;
-    cmd_vel.angular.x = 0;
-    cmd_vel.angular.y = 0;
-    cmd_vel.angular.z = 0.4*sin(count);
+		cmd_vel.linear.y=0;   
+		cmd_vel.linear.z = 0;
+    		cmd_vel.angular.x = 0;
+    		cmd_vel.angular.y = 0;
+    		cmd_vel.angular.z = 0.4*sin(count);
    
- ROS_INFO("%lf %lf",cordx,cordy);
+ 		ROS_INFO("%lf %lf",cordx,cordy);
 
-    vel_pub_0.publish(cmd_vel);
-    ros::spinOnce();
+    		vel_pub_0.publish(cmd_vel);
+    		ros::spinOnce();
 
-    loop_rate.sleep();
+    		loop_rate.sleep();
 //prev=cordx;
    // serv_client.call(getmodelstate);
 
-    ++count;
-  }
-ROS_INFO("Turning +90 degrees");
-ROS_INFO("%lf %lf %lf %lf",getmodelstate.response.pose.orientation.x,getmodelstate.response.pose.orientation.y, getmodelstate.response.pose.orientation.z, getmodelstate.response.pose.orientation.w);
-cmd_vel.linear.x=0;
-cmd_vel.linear.x=0;
-cmd_vel.linear.x=0;
-cmd_vel.angular.z=0.1;
+    		++count;
+	}
+	ROS_INFO("Turning +90 degrees");
+	ROS_INFO("%lf %lf %lf %lf",getmodelstate.response.pose.orientation.x,getmodelstate.response.pose.orientation.y, 	getmodelstate.response.pose.orientation.z, getmodelstate.response.pose.orientation.w);
+	cmd_vel.linear.x=0;
+	cmd_vel.linear.x=0;
+	cmd_vel.linear.x=0;
+	cmd_vel.angular.z=0.1;
 	vel_pub_0.publish(cmd_vel);
-while(ros::ok())
-{
-serv_client.call(getmodelstate); 
-ROS_INFO("%lf",getmodelstate.response.pose.orientation.w);
+	while(ros::ok())
+	{
+		serv_client.call(getmodelstate); 
+		ROS_INFO("%lf",getmodelstate.response.pose.orientation.w);
 //if(abs(abs(getmodelstate.response.pose.orientation.w)-0.707)<0.1)
-if((getmodelstate.response.pose.orientation.w)<0.707)
-{
+		if((getmodelstate.response.pose.orientation.w)<0.707)
+		{
+			cmd_vel.angular.z=0;
+			vel_pub_0.publish(cmd_vel);
+			break;
+		}
+		ros::spinOnce();
+		loop_rate.sleep();
+	}
+
+	ROS_INFO("Moving in Y direction");
+	while(ros::ok())
+ 	{
+		serv_client.call(getmodelstate); 
+		if(abs(cordy)<0.2)
+			break;
+		else
+ 			cmd_vel.linear.x = (cordy<0)?-1:1;
+    //cmd_vel.linear.y = (cordy<0)?1*signbit(cordy):0;
+		cmd_vel.linear.y=0;   
+		cmd_vel.linear.z = 0;
+    		cmd_vel.angular.x = 0;
+    		cmd_vel.angular.y = 0;
+    		cmd_vel.angular.z = 0.4*sin(count);
+   
+ 		ROS_INFO("%lf %lf",cordx,cordy);
+
+    		vel_pub_0.publish(cmd_vel);
+    		ros::spinOnce();
+
+    		loop_rate.sleep();
+//prev=cordx;
+   // serv_client.call(getmodelstate);
+
+   		 ++count;
+  	}
+	cmd_vel.linear.x=0;
 	cmd_vel.angular.z=0;
 	vel_pub_0.publish(cmd_vel);
-	break;
-}
-ros::spinOnce();
-loop_rate.sleep();
-}
-
-ROS_INFO("Moving in Y direction");
-while(ros::ok())
- {
-serv_client.call(getmodelstate); 
-	if(abs(cordy)<0.2)
-		break;
-	else
- 		cmd_vel.linear.x = (cordy<0)?-1:1;
-    //cmd_vel.linear.y = (cordy<0)?1*signbit(cordy):0;
-	cmd_vel.linear.y=0;   
-	cmd_vel.linear.z = 0;
-    cmd_vel.angular.x = 0;
-    cmd_vel.angular.y = 0;
-    cmd_vel.angular.z = 0.4*sin(count);
-   
- ROS_INFO("%lf %lf",cordx,cordy);
-
-    vel_pub_0.publish(cmd_vel);
-    ros::spinOnce();
-
-    loop_rate.sleep();
-//prev=cordx;
-   // serv_client.call(getmodelstate);
-
-    ++count;
-  }
-cmd_vel.linear.x=0;
-cmd_vel.angular.z=0;
-vel_pub_0.publish(cmd_vel);
 //while ((ros::ok())&&(abs(cordy)>=abs(prev))&&cordy!=0)
 /*serv_client.call(getmodelstate);
 prev=cordy;
@@ -174,5 +174,5 @@ prev=cordy;
 
     ++count;
   }*/
-  return 0;
+  	return 0;
 }

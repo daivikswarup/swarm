@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 
 	int count = 0;
 	geometry_msgs::Twist cmd_vel;
-	getmodelstate.request.model_name=s;
+	getmodelstate.request.model_name=name;
 
 //cmd_vel.linear.x=-0.5*(cordx)/(sqrt(cordx*cordx+cordy*cordy));
 //cmd_vel.linear.y=-0.5*(cordy)/(sqrt(cordx*cordx+cordy*cordy));
