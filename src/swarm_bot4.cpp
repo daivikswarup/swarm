@@ -10,7 +10,7 @@
 #define cordx (getmodelstate.response.pose.position.x-desx)
 #define cordtheta (normalizeAngle(2*acos(getmodelstate.response.pose.orientation.w)-destheta))
 #define cordy (getmodelstate.response.pose.position.y-desy)
-
+#define threshold 0.1
 int signbit(double x)
 {
 	if(x>=0)
@@ -26,7 +26,8 @@ double abs(double x)
 }
 double normalizeAngle(double x)
 {
-	return fmod(x,2*M_PI)-((fmod(x,2*M_PI)>M_PI)?2*M_PI:0);
+	//return fmod(x,2*M_PI)-((fmod(x,2*M_PI)>M_PI)?2*M_PI:0);
+	return x-2*M_PI*floor((x+M_PI)/(2*M_PI));
 }
 class path_parameters
 {
@@ -100,8 +101,11 @@ int main(int argc, char **argv)
 	int count = 0;
 	geometry_msgs::Twist cmd_vel;
 	getmodelstate.request.model_name=name;
-	p.set(1,3,2);
-	while(ros::ok())
+	serv_client.call(getmodelstate); 
+	polar_cord.set(cordx,cordy,cordtheta);
+	p.set(0.75,4,20);
+	ROS_INFO("%lf\n",polar_cord.ro);
+	while((ros::ok())&&(polar_cord.ro>threshold))
  	{
 		serv_client.call(getmodelstate); 
 		polar_cord.set(cordx,cordy,cordtheta);
