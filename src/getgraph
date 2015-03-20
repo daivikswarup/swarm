@@ -1,0 +1,8 @@
+#include<vector.h>
+#include<ros.h>
+int main()
+{
+	ros::init(argc, argv, "Graphmaeker");
+	ros::NodeHandle n;
+}
+

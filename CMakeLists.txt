@@ -117,6 +117,10 @@ set(SINGLE_BOT4
         src/swarm_bot4.cpp
 )
 
+set(amancode
+        src/amancode.cpp
+)
+
 
 ## Declare a cpp executable
 add_executable(swarm_simulator_node ${SWARM_SIMU})
@@ -129,12 +133,15 @@ add_executable(single_bot_node ${SINGLE_BOT})
 add_executable(single_bot_node3 ${SINGLE_BOT3})
 add_executable(single_bot_node_8 ${SINGLE_BOT_8})
 add_executable(single_bot_node4 ${SINGLE_BOT4})
+add_executable(aman ${amancode})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(single_bot_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 target_link_libraries(single_bot_node3  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 target_link_libraries(single_bot_node_8  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 target_link_libraries(single_bot_node4  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+target_link_libraries(aman  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 #############
 ## Install ##
