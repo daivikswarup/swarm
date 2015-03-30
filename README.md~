@@ -23,7 +23,7 @@ To check the published obstacle list : <br />
  $ rostopic echo /obstacleList
 
 ===============================
-In Folder src [rosrun executables]:
+In Folder src:
 1. task1.cpp : To move from (x1,y1) to (x2,y2) along lines parallel to the axes
 2. simple_path_planner.cpp : To move from (x1,y1) to (x2,y2) along a smooth path
 3. 8_motion : to make the bot move along an '8' shaped path
