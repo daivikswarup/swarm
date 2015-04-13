@@ -7,10 +7,13 @@
 #include <gazebo_msgs/GetModelState.h>
 #include <gazebo_msgs/GetWorldProperties.h>
 #include<string.h>
+//DEFINE RELATIVE X,Y, AND THETA
 #define cordx (getmodelstate.response.pose.position.x-desx)
 #define cordtheta (normalizeAngle(2*acos(getmodelstate.response.pose.orientation.w)-destheta))
 #define cordy (getmodelstate.response.pose.position.y-desy)
 #define threshold 0.1
+
+//RETURNS 0 IF POSITIVE ELSE RETURNS 1
 int signbit(double x)
 {
 	if(x>=0)
@@ -18,18 +21,22 @@ int signbit(double x)
 	else
 		return 1;
 }
+
+//ABSOLUTE VALUE
 double abs(double x)
 {
 	if(x>=0)
 		return x;
 	return -x;
 }
+
+//RETURNS CORRESPONDING ANGLE BETWEEN -PI AND +PI
 double normalizeAngle(double x)
 {
-	//return fmod(x,2*M_PI)-((fmod(x,2*M_PI)>M_PI)?2*M_PI:0);
 	return x-2*M_PI*floor((x+M_PI)/(2*M_PI));
 }
-class path_parameters
+
+class path_parameters//REQUIRED FOR DEFINING A PATH
 {
 	public:
 	double k1;
@@ -43,7 +50,7 @@ class path_parameters
 	}
 };
 
-class polar
+class polar//HAS FUNCTIONS TO CONVERT CARTESIAN TO POLAR AND TO CALULATE V AND W
 {
 	public:
 	double ro;
@@ -52,7 +59,6 @@ class polar
 	void set(double x, double y, double theta)
 	{
 		ro=sqrt(x*x+y*y);
-		//gamma=atan2(y,x)-theta+M_PI;
 		gamma=normalizeAngle(atan2(y,x)-theta+M_PI);			
 		delta=normalizeAngle(gamma+theta);
 	}
@@ -81,6 +87,8 @@ int main(int argc, char **argv)
 	polar polar_cord;
 	std::string name;
 	ros::init(argc, argv, name);
+
+	//TO ACCEPT COMMAND LINE PARAMETERS
 	ros::NodeHandle private_node_handle_("~");
 	private_node_handle_.param("name", name, std::string("swarmbot0"));
   	private_node_handle_.param("desx", desx, double(0));
@@ -88,7 +96,6 @@ int main(int argc, char **argv)
 	private_node_handle_.param("destheta", destheta, double(0));
 
   	path_parameters p;
-
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<gazebo_msgs::GetWorldProperties>("/gazebo/get_world_properties");
 	gazebo_msgs::GetWorldProperties prop;

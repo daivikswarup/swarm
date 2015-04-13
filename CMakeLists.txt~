@@ -129,7 +129,7 @@ add_executable(astar ${astar})
 add_dependencies(swarm_simulator_node ${PROJECT_NAME}_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(swarm_simulator_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-target_link_libraries(graph  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_link_libraries(astar  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 ## Declare a cpp executable
 add_executable(single_bot_node ${SINGLE_BOT})

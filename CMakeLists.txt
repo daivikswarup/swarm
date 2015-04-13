@@ -121,11 +121,16 @@ set(simple_path_planner
         src/simple_path_planner.cpp
 )
 
+set(pid_controller
+        src/control.cpp
+)
+
 
 
 ## Declare a cpp executable
 add_executable(swarm_simulator_node ${SWARM_SIMU})
 add_executable(astar ${astar})
+add_executable(pid ${pid_controller})
 add_dependencies(swarm_simulator_node ${PROJECT_NAME}_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(swarm_simulator_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
@@ -140,6 +145,7 @@ add_executable(simple_path_planner ${simple_path_planner})
 ## Specify libraries to link a library or executable target against
 target_link_libraries(single_bot_node  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 target_link_libraries(task1  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_link_libraries(pid  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 target_link_libraries(8_motion  ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 target_link_libraries(simple_path_planner ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 

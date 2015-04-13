@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<gazebo_msgs::GetWorldProperties>("/gazebo/get_world_properties");
 	gazebo_msgs::GetWorldProperties prop;
-	ros::Publisher vel_pub_0 = n.advertise<geometry_msgs::Twist>("/swarmbot0/cmd_vel", 1);
+	ros::Publisher vel_pub_0 = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 	ros::ServiceClient serv_client = n.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
 	gazebo_msgs::GetModelState getmodelstate;
 	gazebo_msgs::ModelState modelstate;
